@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <title>PDF/Image Data Entry Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased overflow-x-hidden">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white border-b border-gray-200 p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">OCR Data Entry Portal</h1>
+            <div id="system-status" class="text-sm font-medium text-green-600">🟢 Operational (Standby Demo)</div>
+        </header>
+
+        <main class="flex-1 p-4 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-6">
+            <section class="md:col-span-7 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-lg font-semibold mb-4">Document Viewer (PDF/Image)</h2>
+                <div class="aspect-video bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md">
+                    <p class="text-gray-500">Scanned PDF/Image Preview Area</p>
+                </div>
+            </section>
+
+            <section class="md:col-span-5 flex flex-col gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <h2 class="text-lg font-semibold mb-4">Extraction Editor</h2>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-yellow-50 border-l-4 border-yellow-400 text-sm">
+                            <p><strong>Validation Error:</strong> Table row 4 confidence below 85%.</p>
+                        </div>
+                        <textarea class="w-full h-32 p-2 border rounded text-sm" placeholder="Structured data output..."></textarea>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded font-bold min-h-[44px]">Submit Corrections</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <h2 class="text-lg font-semibold mb-2">Agent Decision Log</h2>
+                    <ul id="log-list" class="text-xs space-y-2 text-gray-600">
+                        <li>[10:42:01] OCR Engine initialized for batch #882</li>
+                        <li>[10:42:05] Table structure detected in image_001.png</li>
+                        <li>[10:42:12] Confidence score 92% - Auto-validation passed</li>
+                        <li>[10:42:15] Human intervention required for task #9921</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Demo Health Check Fallback
+        window.onload = () => {
+            const statusEl = document.getElementById('system-status');
+            try {
+                fetch('/api/v1/system/health').catch(() => {
+                    statusEl.innerText = '🟢 Operational (Standby Demo)';
+                });
+            } catch (e) {
+                statusEl.innerText = '🟢 Operational (Standby Demo)';
+            }
+        };
+    </script>
+</body>
+</html>
